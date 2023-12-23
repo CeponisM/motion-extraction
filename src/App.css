@@ -1,38 +1,62 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  align-items: center; /* Center content horizontally */
+}
+
+.controls {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 100%;
+  padding: 10px;
+  flex-shrink: 0; /* Prevent this section from shrinking */
 }
 
-.App-link {
-  color: #61dafb;
+.videoElement {
+  position: absolute;
+  top: 35px; /* Adjusted to accommodate the controls section */
+  left: 0;
+  width: 100vw;
+  max-height: calc(100vh - 35px); /* Adjust height based on the controls section */
+  object-fit: contain;
+  z-index: 1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.canvasElement {
+  position: absolute;
+  top: 35px; /* Adjusted to accommodate the controls section */
+  left: 0;
+  width: 100vw;
+  max-height: calc(100vh - 35px); /* Adjust height based on the controls section */
+  object-fit: contain;
+  z-index: 2;
+  opacity: 0.5; /* Make the canvas semi-transparent */
+}
+
+/* Landscape */
+@media screen and (orientation: landscape) {
+  .videoElement,
+  .canvasElement {
+    width: 100vw;
+    height: auto;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+/* Portrait */
+@media screen and (orientation: portrait) {
+  .videoElement,
+  .canvasElement {
+    width: 100%;
+    height: auto;
+    object-fit: contain; /* Ensure aspect ratio is maintained */
   }
+}
+
+.error {
+  color: red;
+  font-weight: bold;
 }

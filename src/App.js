@@ -17,8 +17,8 @@ function App() {
 
   useEffect(() => {
     const constraints = {
-      video: { 
-        facingMode: usingFrontCamera ? "user" : "environment" 
+      video: {
+        facingMode: usingFrontCamera ? "user" : "environment"
       }
     };
 
@@ -40,11 +40,11 @@ function App() {
       const video = videoRef.current;
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
-  
+
       if (!video.paused && !video.ended) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-  
+
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         invertColors(imageData);
@@ -55,7 +55,7 @@ function App() {
       }
       requestAnimationFrame(drawFrame);
     }
-  };  
+  };
 
   const invertColors = (imageData) => {
     let data = imageData.data;
@@ -65,7 +65,7 @@ function App() {
       data[i + 2] = 255 - data[i + 2]; // Invert Blue
     }
     console.log("Inverted colors:", data.slice(0, 10)); // Log first few pixels
-  };  
+  };
 
   const flipCamera = () => {
     setUsingFrontCamera(prev => !prev);
@@ -86,7 +86,7 @@ function App() {
         <button onClick={flipCamera}>Flip Camera</button>
       </div>
       <div>
-        
+
       </div>
       <video
         ref={videoRef}

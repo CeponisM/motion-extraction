@@ -1,70 +1,160 @@
-# Getting Started with Create React App
+# Motion Extraction App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based web application that captures camera feed and applies real-time visual effects including color inversion and frame delay processing.
+Idea found and explained here: https://www.youtube.com/watch?v=NSS6yAMZF78
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Real-time Camera Feed**: Access and display live video from device cameras
+- **Color Inversion**: Applies a negative/inverted color effect to the video feed
+- **Frame Delay**: Configurable delay buffer that shows previous frames with adjustable timing
+- **Camera Switching**: Toggle between front-facing and rear-facing cameras
+- **Responsive Controls**: Intuitive interface for adjusting delay and camera settings
 
-### `npm start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React 18.2.0
+- HTML5 Canvas API
+- WebRTC getUserMedia API
+- CSS3 for styling and animations
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation
 
-### `npm test`
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd motion-extraction
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Install dependencies:
+```bash
+npm install
+```
 
-### `npm run build`
+3. Start the development server:
+```bash
+npm start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. Open [http://localhost:3000](http://localhost:3000) to view the app in your browser.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Usage
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Basic Operation
+1. Grant camera permissions when prompted by your browser
+2. The app will automatically start displaying your camera feed with inverted colors
+3. Use the controls to customize the experience
 
-### `npm run eject`
+### Controls
+- **Delay (frames)**: Adjust the number of frames to delay the display (0 = real-time)
+- **Flip Camera**: Switch between front and rear cameras (if available)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Frame Delay Effect
+The frame delay creates a "ghost trail" or motion blur effect by showing previous frames. Higher delay values create more pronounced trailing effects, useful for:
+- Motion visualization
+- Artistic video effects
+- Performance analysis
+- Creative photography/videography
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Browser Compatibility
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The app requires browsers that support:
+- WebRTC getUserMedia API
+- HTML5 Canvas
+- ES6+ JavaScript features
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Supported Browsers:**
+- Chrome 60+
+- Firefox 55+
+- Safari 11+
+- Edge 79+
 
-## Learn More
+## Camera Permissions
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The app requires camera access to function. Make sure to:
+1. Allow camera permissions when prompted
+2. Ensure your camera is not being used by other applications
+3. Check browser settings if camera access is blocked
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Key Components
 
-### Code Splitting
+- **Video Element**: Captures live camera feed
+- **Canvas Element**: Renders processed frames with effects
+- **Frame Queue**: Manages delay buffer for temporal effects
+- **Camera Controls**: Handles camera switching and configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Development
 
-### Analyzing the Bundle Size
+### Available Scripts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- `npm start` - Runs the app in development mode
+- `npm build` - Builds the app for production
+- `npm eject` - Ejects from Create React App (irreversible)
 
-### Making a Progressive Web App
+### Code Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The main application logic handles:
+- Camera stream initialization and management
+- Real-time canvas rendering loop
+- Frame buffering and delay processing
+- Color inversion algorithms
+- Camera switching with smooth transitions
 
-### Advanced Configuration
+## Troubleshooting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Common Issues
 
-### Deployment
+**Camera not working:**
+- Check browser permissions
+- Ensure camera is not in use by another application
+- Try refreshing the page
+- Check if HTTPS is required (some browsers require secure context)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+**Performance issues:**
+- Lower the delay value
+- Ensure good lighting conditions
+- Close other resource-intensive applications
 
-### `npm run build` fails to minify
+**Camera switching not working:**
+- Some devices may only have one camera
+- Try different browsers if switching fails
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Technical Details
+
+### Frame Processing
+The app uses a queue-based approach to manage frame delays:
+1. Captures frames from video stream
+2. Applies color inversion to each frame
+3. Stores frames in a FIFO queue
+4. Displays frames with specified delay
+
+### Color Inversion Algorithm
+```javascript
+// Inverts RGB values: newValue = 255 - originalValue
+data[i] = 255 - data[i];     // Red
+data[i + 1] = 255 - data[i + 1]; // Green  
+data[i + 2] = 255 - data[i + 2]; // Blue
+// Alpha channel remains unchanged
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/new-feature`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature/new-feature`)
+5. Create a Pull Request
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## Future Enhancements
+
+Potential features for future development:
+- Additional visual effects (blur, edge detection, etc.)
+- Recording and export functionality
+- Multiple delay channels
+- Real-time performance optimization
+- Mobile-specific optimizations
+- Preset effect configurations

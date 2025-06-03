@@ -22,7 +22,7 @@ Idea found and explained here: https://www.youtube.com/watch?v=NSS6yAMZF78
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/CeponisM/motion-extraction.git
 cd motion-extraction
 ```
 
